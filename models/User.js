@@ -22,6 +22,18 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  birthday: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  terms: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 });
 
 export default User;
