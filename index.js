@@ -30,3 +30,8 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`e-commerce server running at ${port}`));
+
+//npm install
+//npm i bcrypt
+//npm install jsonwebtoken
+//npm i cookie-parser
