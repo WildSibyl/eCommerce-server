@@ -35,3 +35,4 @@ app.listen(port, () => console.log(`e-commerce server running at ${port}`));
 //npm i bcrypt
 //npm install jsonwebtoken
 //npm i cookie-parser
+//npm i sequelize pg

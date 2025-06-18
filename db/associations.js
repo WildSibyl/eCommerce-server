@@ -17,16 +17,17 @@ Product.belongsTo(Category, {
   as: "category",
 });
 
+// User has many Orders
 Order.belongsTo(User, {
   foreignKey: "userId",
 });
 
-User.belongsToMany(Product, {
-  through: "OrderProducts",
-});
+// Order has many Products
+Order.belongsToMany(Product, { through: "OrderProducts" });
+Product.belongsToMany(Order, { through: "OrderProducts" });
 
-Product.belongsToMany(Order, {
-  through: "OrderProducts",
-});
+// User bought Products
+User.belongsToMany(Product, { through: "UserProducts" });
+Product.belongsToMany(User, { through: "UserProducts" });
 
 sequelize.sync();

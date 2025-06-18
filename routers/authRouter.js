@@ -8,7 +8,7 @@ import {
   updatePassword,
   deleteAccount,
 } from "../controllers/auth.js";
-import validateSchema from "../middlewares/validateSchema.js";
+import validateSchema from "../middleware/validateSchema.js";
 import {
   signInSchema,
   signUpSchema,
@@ -16,7 +16,7 @@ import {
   updatePasswordSchema,
   deleteAccountSchema,
 } from "../joi/authSchemas.js";
-import verifyToken from "../middlewares/verifyToken.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const authRouter = Router();
 
