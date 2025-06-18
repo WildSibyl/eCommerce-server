@@ -1,5 +1,6 @@
 import "./db/associations.js";
 import express from "express";
+import cookieParser from "cookie-parser";
 import authRouter from "./routers/authRouter.js";
 import categoryRouter from "./routers/categoryRouter.js";
 import orderRouter from "./routers/orderRouter.js";
@@ -16,6 +17,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/categories", categoryRouter);
