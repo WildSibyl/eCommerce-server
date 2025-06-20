@@ -1,10 +1,5 @@
 import Joi from "joi";
 
-// Date validation
-const minDate = new Date("1900-01-01");
-const maxDate = new Date();
-maxDate.setFullYear(maxDate.getFullYear() - 15);
-
 export const signUpSchema = Joi.object({
   userName: Joi.string()
     .trim()

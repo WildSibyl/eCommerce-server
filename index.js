@@ -1,4 +1,5 @@
 import "./db/associations.js";
+import sequelize from "./db/index.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -39,6 +40,10 @@ app.use((req, res) => {
 
 app.use(errorHandler);
 
+// sequelize.sync({ force: true }).then(() => {
+//   console.log("Database synced with models (forced).");
+// });
+
 app.listen(port, () => console.log(`e-commerce server running at ${port}`));
 
 //npm install
@@ -46,3 +51,6 @@ app.listen(port, () => console.log(`e-commerce server running at ${port}`));
 //npm install jsonwebtoken
 //npm i cookie-parser
 //npm i sequelize pg
+//npm i joi
+//npm i cors
+//npm i express

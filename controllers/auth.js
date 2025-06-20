@@ -2,10 +2,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
-import { getCoordinates } from "../utils/getCoordinates.js";
 
 export const me = async (req, res) => {
-  const user = await User.findById(req.userId);
+  const user = await User.findByPk(req.userId);
   res.status(200).json(user);
 };
 
@@ -25,16 +24,14 @@ export const signUp = async (req, res) => {
     } = req.body;
 
     // Pre-check username
-    const userNameExists = await User.findOne({ userName });
+    const userNameExists = await User.findOne({ where: { userName } }); // Using Sequelize's findOne method
     if (userNameExists) throw new ErrorResponse("Username already taken", 409);
 
     // Pre-check email
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ where: { email } }); // Using Sequelize's findOne method
     if (userExists) throw new ErrorResponse("Email already registered", 409);
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const { lat, lng } = await getCoordinates(address);
 
     const newUser = await User.create({
       userName,
@@ -42,12 +39,7 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
       terms,
       birthday,
-      address: {
-        ...address,
-        location: {
-          coordinates: [lng, lat], //Always longitude first and then latitude
-        },
-      },
+      address,
       orders,
       permission: "user", // Default permission for new users
     });
@@ -93,7 +85,10 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({
+    where: { email },
+    attributes: { include: ["password"] },
+  });
   if (!user) throw new ErrorResponse("Invalid credentials", 401);
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -144,7 +139,7 @@ export const updateEmail = async (req, res) => {
     return res.status(400).json({ error: "Emails do not match" });
   }
 
-  const user = await User.findById(userId).select("+password"); // Getting the password field only for this operation
+  const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
   const isMatch = await bcrypt.compare(currentPassword, user.password);
   if (!isMatch) {
     return res.status(401).json({ error: "Invalid current password" });
@@ -164,7 +159,7 @@ export const updatePassword = async (req, res) => {
     return res.status(400).json({ error: "Passwords do not match" });
   }
 
-  const user = await User.findById(userId).select("+password"); // Getting the password field only for this operation
+  const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
@@ -195,7 +190,7 @@ export const deleteAccount = async (req, res, next) => {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const user = await User.findById(userId).select("+password"); // Getting the password field only for this operation
+    const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -212,7 +207,7 @@ export const deleteAccount = async (req, res, next) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    await User.findByIdAndDelete(userId);
+    await User.findByPkAndDelete(userId);
 
     // Clear the cookie that holds the JWT
     res.clearCookie("token", {

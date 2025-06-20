@@ -14,7 +14,7 @@ const User = sequelize.define("User", {
   },
   birthday: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
   },
   email: {
     type: DataTypes.STRING,
@@ -28,7 +28,7 @@ const User = sequelize.define("User", {
   },
   address: {
     type: DataTypes.JSONB,
-    allowNull: false,
+    allowNull: true,
   },
   terms: {
     type: DataTypes.BOOLEAN,
