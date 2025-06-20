@@ -3,10 +3,10 @@ import Joi from "joi";
 // Date validation
 const minDate = new Date("1900-01-01");
 const maxDate = new Date();
-maxDate.setFullYear(maxDate.getFullYear() - 5);
+maxDate.setFullYear(maxDate.getFullYear() - 15);
 
 export const signUpSchema = Joi.object({
-  name: Joi.string()
+  userName: Joi.string()
     .trim()
     .pattern(/^[A-Za-z0-9\s]+$/, "letters, numbers, and spaces")
     .required(),
@@ -15,28 +15,6 @@ export const signUpSchema = Joi.object({
   confirmPassword: Joi.any().valid(Joi.ref("password")).required().messages({
     "any.only": "Passwords do not match",
   }),
-  birthday: Joi.string()
-    .isoDate()
-    .custom((value, helpers) => {
-      const date = new Date(value);
-      if (isNaN(date.getTime())) {
-        return helpers.error("date.base");
-      }
-      if (date <= minDate) {
-        return helpers.message("Birthday must be after January 1, 1900");
-      }
-      if (date >= maxDate) {
-        return helpers.message("You must be at least 5 years old to sign up");
-      }
-      return value;
-    })
-    .required(),
-  address: Joi.object({
-    street: Joi.string().required(),
-    houseNumber: Joi.string().required(),
-    postalCode: Joi.string().required(),
-    city: Joi.string().required(),
-  }).required(),
   terms: Joi.boolean().valid(true).required(),
 });
 

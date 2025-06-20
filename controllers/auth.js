@@ -18,13 +18,11 @@ export const signUp = async (req, res) => {
       userName,
       email,
       password,
+      terms = false,
       birthday,
       address,
       orders = [],
-      terms = false,
     } = req.body;
-
-    let { avatarUrl } = req.body;
 
     // Pre-check username
     const userNameExists = await User.findOne({ userName });
@@ -42,6 +40,7 @@ export const signUp = async (req, res) => {
       userName,
       email,
       password: hashedPassword,
+      terms,
       birthday,
       address: {
         ...address,
@@ -50,7 +49,7 @@ export const signUp = async (req, res) => {
         },
       },
       orders,
-      terms,
+      permission: "user", // Default permission for new users
     });
 
     const token = jwt.sign(

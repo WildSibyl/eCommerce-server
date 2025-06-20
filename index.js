@@ -1,5 +1,6 @@
 import "./db/associations.js";
 import express from "express";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routers/authRouter.js";
 import categoryRouter from "./routers/categoryRouter.js";
@@ -10,12 +11,19 @@ import userRouter from "./routers/userRouter.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
+const allowedOrigin = process.env.CLIENT_URL;
 
 const errorHandler = (err, req, res, next) => {
   process.env.NODE_ENV !== "production" && console.log(err);
   res.status(err.statusCode || 500).json({ error: err.message });
 };
 
+app.use(
+  cors({
+    origin: allowedOrigin,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
