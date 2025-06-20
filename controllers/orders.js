@@ -48,6 +48,15 @@ const putOrder = async (req, res) => {
   res.json(orderUpdate);
 };
 
+// const { lat, lng } = await getCoordinates(address);
+
+//       address: {
+//         ...address,
+//         location: {
+//           coordinates: [lng, lat], //Always longitude first and then latitude
+//         },
+//       },
+
 const deleteOrder = async (req, res) => {
   console.log("Delete order");
   const order = await Order.findByPk(req.params.id);
