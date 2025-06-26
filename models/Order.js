@@ -7,8 +7,8 @@ const Order = sequelize.define("Orders", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  products: {
-    type: DataTypes.JSON,
+  items: {
+    type: DataTypes.JSONB,
     allowNull: false,
     // get: function () {
     //   const json = JSON.parse(this.getDataValue("products"));
@@ -35,10 +35,32 @@ const Order = sequelize.define("Orders", {
     //   return this.setDataValue("products", JSON.stringify(val));
     // },
   },
+  shipping: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  billing: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  fee: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   total: {
-    type: DataTypes.FLOAT,
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "pending", // pending, paid, failed, etc.
+  },
+  stripePaymentIntentId: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });
+
+//await sequelize.sync({ alter: true });
 
 export default Order;
