@@ -5,7 +5,7 @@ import Product from "./Product.js";
 const Order = sequelize.define("Orders", {
   userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   items: {
     type: DataTypes.JSONB,

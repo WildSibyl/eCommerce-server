@@ -3,6 +3,7 @@ import {
   getStripeConfig,
   createPaymentIntent,
 } from "../controllers/checkout.js";
+import verifyTokenOptional from "../middleware/verifyTokenOptional.js";
 import validateSchema from "../middleware/validateSchema.js";
 import { createPaymentIntentSchema } from "../joi/checkoutSchemas.js";
 
@@ -14,6 +15,10 @@ checkoutRouter.route("/config").get(getStripeConfig);
 
 checkoutRouter
   .route("/create-payment-intent")
-  .post(validateSchema(createPaymentIntentSchema), createPaymentIntent);
+  .post(
+    verifyTokenOptional,
+    validateSchema(createPaymentIntentSchema),
+    createPaymentIntent
+  );
 
 export default checkoutRouter;

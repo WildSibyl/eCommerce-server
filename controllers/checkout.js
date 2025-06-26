@@ -15,7 +15,7 @@ export const getStripeConfig = async (req, res) => {
 
 export const createPaymentIntent = async (req, res) => {
   const { items, shipping, billing, fee, total } = req.body;
-  const userId = req.user?.id || "anonymous"; // or from token
+  const userId = req.user?.id || null; // or from token
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
