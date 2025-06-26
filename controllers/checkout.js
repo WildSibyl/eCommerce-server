@@ -15,7 +15,7 @@ export const getStripeConfig = async (req, res) => {
 
 export const createPaymentIntent = async (req, res) => {
   const { items, shipping, billing, fee, total } = req.body;
-  const userId = req.user?.id || null; // or from token
+  const userId = req.userId || null; // or from token
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
@@ -32,7 +32,7 @@ export const createPaymentIntent = async (req, res) => {
       },
     });
 
-    await Order.create({
+    const NewOrder = await Order.create({
       userId,
       items,
       shipping,
@@ -42,6 +42,8 @@ export const createPaymentIntent = async (req, res) => {
       status: "pending",
       stripePaymentIntentId: paymentIntent.id,
     });
+
+    console.log("New Order created:", NewOrder);
 
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
