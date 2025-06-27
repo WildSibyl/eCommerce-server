@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import Order from "../models/Order.js";
+import { generateOrderId } from "../utils/generateOrderId.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -32,16 +33,36 @@ export const createPaymentIntent = async (req, res) => {
       },
     });
 
-    const NewOrder = await Order.create({
-      userId,
-      items,
-      shipping,
-      billing,
-      fee,
-      total,
-      status: "pending",
-      stripePaymentIntentId: paymentIntent.id,
-    });
+    let NewOrder;
+    let tries = 0;
+    const maxTries = 5;
+
+    while (!NewOrder && tries < maxTries) {
+      const orderId = generateOrderId();
+      try {
+        NewOrder = await Order.create({
+          orderId,
+          userId,
+          items,
+          shipping,
+          billing,
+          fee,
+          total,
+          status: "pending",
+          stripePaymentIntentId: paymentIntent.id,
+        });
+      } catch (err) {
+        if (err.name === "SequelizeUniqueConstraintError") {
+          tries++;
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    if (!NewOrder) {
+      return res.status(500).json({ error: "Failed to create unique orderId" });
+    }
 
     console.log("New Order created:", NewOrder);
 
