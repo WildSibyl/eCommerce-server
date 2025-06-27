@@ -6,6 +6,7 @@ import {
   putOrder,
   deleteOrder,
 } from "../controllers/orders.js";
+import verifyTokenOptional from "../middleware/verifyTokenOptional.js";
 import validateSchema from "../middleware/validateSchema.js";
 import orderSchema from "../schemas/orderSchema.js";
 
@@ -18,7 +19,7 @@ orderRouter
 
 orderRouter
   .route("/:id")
-  .get(getOrderById)
+  .get(verifyTokenOptional, getOrderById)
   .put(validateSchema(orderSchema), putOrder)
   .delete(deleteOrder);
 export default orderRouter;
