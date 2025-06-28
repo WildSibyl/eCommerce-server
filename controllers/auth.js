@@ -45,7 +45,7 @@ export const signUp = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { id: newUser._id, permission: newUser.permission },
+      { id: newUser.id, permission: newUser.permission },
       process.env.JWT_SECRET,
       {
         expiresIn: "7d",
@@ -63,7 +63,7 @@ export const signUp = async (req, res) => {
     res.cookie("token", token, cookieOptions);
 
     res.status(201).json({
-      id: newUser._id,
+      id: newUser.id,
       userName: newUser.userName,
       email: newUser.email,
       createdAt: newUser.createdAt,
@@ -94,7 +94,7 @@ export const signIn = async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new ErrorResponse("Invalid credentials", 401);
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 

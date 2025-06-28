@@ -1,44 +1,48 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db/index.js";
-import Product from "./Product.js";
+import { generateOrderId } from "../utils/generateOrderId.js";
 
 const Order = sequelize.define("Orders", {
+  orderId: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    defaultValue: () => generateOrderId(), // Generates a unique order ID
+  },
   userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  items: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  shipping: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  billing: {
+    type: DataTypes.JSONB,
+    allowNull: false,
+  },
+  fee: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  total: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  products: {
-    type: DataTypes.JSON,
-    allowNull: false,
-    // get: function () {
-    //   const json = JSON.parse(this.getDataValue("products"));
-
-    //   return json;
-    // },
-    // set: async function (val) {
-    //   for (let e of val) {
-    //     if (typeof e !== "object" || e === null) {
-    //       throw new Error("Products need to be a list of objects");
-    //     }
-    //     if (typeof e.productId !== "number") {
-    //       throw new Error("Key productId needs to be a number");
-    //     }
-    //     if (typeof e.quantity !== "number") {
-    //       throw new Error("Key quantity needs to be a number");
-    //     }
-
-    //     const productExists = await Product.findByPk(e.productId);
-    //     if (!productExists) {
-    //       throw new Error(`Product Id ${e.productId} doesn't exist.`);
-    //     }
-    //   }
-    //   return this.setDataValue("products", JSON.stringify(val));
-    // },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: "pending", // pending, paid, failed, etc.
   },
-  total: {
-    type: DataTypes.FLOAT,
+  stripePaymentIntentId: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });
+
+//await sequelize.sync({ alter: true });
 
 export default Order;

@@ -32,9 +32,13 @@ const postOrders = async (req, res) => {
 };
 
 const getOrderById = async (req, res) => {
-  console.log("Get order by id");
-  const orders = await Order.findByPk(req.params.id);
-  res.json(orders);
+  console.log("Get order by id", req.params.id);
+  const order = await Order.findOne({ where: { orderId: req.params.id } });
+  if (!order) {
+    return res.status(404).json({ error: "Order not found" });
+  }
+  res.json(order);
+  console.log("Order found:", order);
 };
 
 const putOrder = async (req, res) => {
