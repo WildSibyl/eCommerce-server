@@ -11,7 +11,8 @@ export const createPaymentIntentSchema = Joi.object({
     .required(),
 
   shipping: Joi.object({
-    address: Joi.string().required(),
+    name: Joi.string().required(),
+    street: Joi.string().required(),
     city: Joi.string().required(),
     state: Joi.string().required(),
     zip: Joi.string().required(),
@@ -19,7 +20,8 @@ export const createPaymentIntentSchema = Joi.object({
   }).required(),
 
   billing: Joi.object({
-    address: Joi.string().required(),
+    name: Joi.string().required(),
+    street: Joi.string().required(),
     city: Joi.string().required(),
     state: Joi.string().required(),
     zip: Joi.string().required(),

@@ -9,7 +9,14 @@ export const generateOrderId = () => {
   }
 
   const now = new Date();
-  const datePart = now.toISOString().slice(0, 10).replace(/-/g, ""); // e.g., 20250626
+  const datePart = now.toISOString().slice(2, 10).replace(/-/g, ""); // 250628
 
-  return prefix + suffix + datePart; // e.g., ORDER-abc12320250626
+  let alternated = "";
+
+  for (let i = 0; i < 6; i++) {
+    if (i < suffix.length) alternated += suffix[i];
+    if (i < datePart.length) alternated += datePart[i];
+  }
+
+  return prefix + alternated; // e.g., ORDER-a2b5c0162238
 };
