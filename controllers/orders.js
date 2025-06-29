@@ -41,6 +41,25 @@ const getOrderById = async (req, res) => {
   console.log("Order found:", order);
 };
 
+const getOrdersByUserId = async (req, res) => {
+  try {
+    console.log("Getting orders by userId", req.query.userId);
+    const userId = req.query.userId;
+
+    let orders;
+    if (userId) {
+      orders = await Order.findAll({ where: { userId: userId } });
+    } else {
+      throw new ErrorResponse("User ID is required", 400);
+    }
+
+    res.json(orders);
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 const putOrder = async (req, res) => {
   console.log("Update orders");
   const order = await Order.findByPk(req.params.id);
@@ -69,4 +88,11 @@ const deleteOrder = async (req, res) => {
   res.json({ message: "Order deleted" });
 };
 
-export { getOrderById, getOrders, postOrders, putOrder, deleteOrder };
+export {
+  getOrderById,
+  getOrdersByUserId,
+  getOrders,
+  postOrders,
+  putOrder,
+  deleteOrder,
+};

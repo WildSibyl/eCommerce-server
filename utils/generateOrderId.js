@@ -5,7 +5,7 @@ export const generateOrderId = () => {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let suffix = "";
   for (let i = 0; i < 6; i++) {
-    suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+    suffix += chars.charAt(Math.floor(Math.random() * chars.length)); // abc123
   }
 
   const now = new Date();
