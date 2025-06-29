@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getOrderById,
+  getOrdersByUserId,
   getOrders,
   postOrders,
   putOrder,
@@ -16,6 +17,8 @@ orderRouter
   .route("/")
   .get(getOrders)
   .post(validateSchema(orderSchema), postOrders);
+
+orderRouter.route("/user").get(verifyTokenOptional, getOrdersByUserId);
 
 orderRouter
   .route("/:id")
