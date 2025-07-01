@@ -3,6 +3,8 @@ import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 import Order from "../models/Order.js";
 import User from "../models/User.js";
+import DiscountCode from "../models/DiscountCode.js";
+import UserDiscount from "../models/UserDiscount.js";
 
 // Category has many Products
 Category.hasMany(Product, {
@@ -29,5 +31,8 @@ Product.belongsToMany(Order, { through: "OrderProducts" });
 // User bought Products
 User.belongsToMany(Product, { through: "UserProducts" });
 Product.belongsToMany(User, { through: "UserProducts" });
+
+UserDiscount.belongsTo(User, { foreignKey: "userId" });
+UserDiscount.belongsTo(DiscountCode, { foreignKey: "discountCodeId" });
 
 sequelize.sync();

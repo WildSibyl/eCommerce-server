@@ -10,6 +10,7 @@ import productRouter from "./routers/productRouter.js";
 import ErrorResponse from "./utils/ErrorResponse.js";
 import userRouter from "./routers/userRouter.js";
 import checkoutRouter from "./routers/checkoutRouter.js";
+import discountRouter from "./routers/discountRouter.js";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -36,6 +37,7 @@ app.use("/products", productRouter);
 app.use("/users", userRouter);
 
 app.use("/checkout", checkoutRouter);
+app.use("/discount", discountRouter);
 
 app.use((req, res) => {
   throw new ErrorResponse("Invalid route", 404);
