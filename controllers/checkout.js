@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import Order from "../models/Order.js";
 import { generateOrderId } from "../utils/generateOrderId.js";
+import DiscountCode from "../models/DiscountCode.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -15,7 +16,7 @@ export const getStripeConfig = async (req, res) => {
 };
 
 export const createPaymentIntent = async (req, res) => {
-  const { items, shipping, billing, fee, total } = req.body;
+  const { items, shipping, billing, fee, discountCode, total } = req.body;
   const userId = req.userId || null; // or from token
 
   try {
@@ -26,6 +27,7 @@ export const createPaymentIntent = async (req, res) => {
         items: JSON.stringify(items),
         shipping: JSON.stringify(shipping),
         billing: JSON.stringify(billing),
+        discountCode: discountCode.toString() || null,
         fee: fee.toString(),
       },
       automatic_payment_methods: {
@@ -47,6 +49,7 @@ export const createPaymentIntent = async (req, res) => {
           shipping,
           billing,
           fee,
+          discountCode,
           total,
           status: "pending",
           stripePaymentIntentId: paymentIntent.id,

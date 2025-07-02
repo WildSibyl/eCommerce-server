@@ -31,5 +31,12 @@ export const createPaymentIntentSchema = Joi.object({
   fee: Joi.string()
     .pattern(/^\d+(\.\d{1,2})?$/)
     .required(), // e.g. "5.00"
+  discountCode: Joi.string()
+    .pattern(/^[A-Z0-9%]+$/)
+    .required()
+    .label("Discount Code")
+    .messages({
+      "string.pattern.base": "Discount code not recognized.",
+    }),
   total: Joi.number().integer().required(), // in cents
 });

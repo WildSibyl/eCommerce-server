@@ -29,6 +29,10 @@ const Order = sequelize.define("Orders", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  discountCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   total: {
     type: DataTypes.INTEGER,
     allowNull: false,
