@@ -33,7 +33,7 @@ export const createPaymentIntentSchema = Joi.object({
     .required(), // e.g. "5.00"
   discountCode: Joi.string()
     .pattern(/^[A-Z0-9%]+$/)
-    .required()
+    .allow(null)
     .label("Discount Code")
     .messages({
       "string.pattern.base": "Discount code not recognized.",
