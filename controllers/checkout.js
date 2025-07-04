@@ -27,7 +27,7 @@ export const createPaymentIntent = async (req, res) => {
         items: JSON.stringify(items),
         shipping: JSON.stringify(shipping),
         billing: JSON.stringify(billing),
-        discountCode: discountCode.toString() || null,
+        discountCode: discountCode ? discountCode.toString() : null,
         fee: fee.toString(),
       },
       automatic_payment_methods: {
