@@ -139,7 +139,9 @@ export const updateEmail = async (req, res) => {
     return res.status(400).json({ error: "Emails do not match" });
   }
 
-  const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
+  const user = await User.findByPk(userId, {
+    attributes: { include: ["password"] },
+  }); // Getting the password field only for this operation
   const isMatch = await bcrypt.compare(currentPassword, user.password);
   if (!isMatch) {
     return res.status(401).json({ error: "Invalid current password" });
@@ -159,7 +161,9 @@ export const updatePassword = async (req, res) => {
     return res.status(400).json({ error: "Passwords do not match" });
   }
 
-  const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
+  const user = await User.findByPk(userId, {
+    attributes: { include: ["password"] },
+  }); // Getting the password field only for this operation
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
@@ -190,7 +194,9 @@ export const deleteAccount = async (req, res, next) => {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    const user = await User.findByPk(userId).select("+password"); // Getting the password field only for this operation
+    const user = await User.findByPk(userId, {
+      attributes: { include: ["password"] },
+    }); // Getting the password field only for this operation
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -207,7 +213,7 @@ export const deleteAccount = async (req, res, next) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    await User.findByPkAndDelete(userId);
+    await User.destroy({ where: { id: userId } });
 
     // Clear the cookie that holds the JWT
     res.clearCookie("token", {
