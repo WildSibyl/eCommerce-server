@@ -6,6 +6,7 @@ import {
   me,
   updateEmail,
   updatePassword,
+  updateAddress,
   deleteAccount,
 } from "../controllers/auth.js";
 import validateSchema from "../middleware/validateSchema.js";
@@ -14,6 +15,7 @@ import {
   signUpSchema,
   updateEmailSchema,
   updatePasswordSchema,
+  updateAddressSchema,
   deleteAccountSchema,
 } from "../joi/authSchemas.js";
 import verifyToken from "../middleware/verifyToken.js";
@@ -34,6 +36,12 @@ authRouter.patch(
   verifyToken,
   validateSchema(updatePasswordSchema),
   updatePassword
+);
+authRouter.patch(
+  "/update-address",
+  verifyToken,
+  validateSchema(updateAddressSchema),
+  updateAddress
 );
 authRouter.delete("/signout", signOut);
 authRouter.delete(
