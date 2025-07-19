@@ -37,6 +37,22 @@ export const updatePasswordSchema = Joi.object({
     }),
 });
 
+export const updateAddressSchema = Joi.object({
+  userName: Joi.string()
+    .trim()
+    .min(2)
+    .max(250)
+    .pattern(/^[A-Za-z0-9\s]+$/)
+    .message("Username can only contain letters, numbers, and spaces")
+    .required(),
+
+  street: Joi.string().trim().min(2).max(250).required(),
+  zipCode: Joi.string().trim().min(2).max(250).required(),
+  city: Joi.string().trim().min(2).max(250).required(),
+  state: Joi.string().trim().min(2).max(250).required(),
+  country: Joi.string().trim().min(2).max(250).required(),
+});
+
 export const deleteAccountSchema = Joi.object({
   email: Joi.string().email().required().messages({
     "string.empty": "Email is required",

@@ -185,6 +185,34 @@ export const updatePassword = async (req, res) => {
   return res.status(200).json({ message: "Password updated" });
 };
 
+export const updateAddress = async (req, res) => {
+  const userId = req.userId;
+  const { userName, street, zipCode, city, state, country } = req.body;
+
+  try {
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.address = {
+      userName,
+      street,
+      zipCode,
+      city,
+      state,
+      country,
+    };
+
+    await user.save();
+
+    return res.status(200).json({ message: "Address updated successfully" });
+  } catch (err) {
+    console.error("Update address failed:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
 export const deleteAccount = async (req, res, next) => {
   try {
     const userId = req.userId; // from verifyToken middleware
