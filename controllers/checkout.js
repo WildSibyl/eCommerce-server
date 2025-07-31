@@ -67,13 +67,13 @@ export const createPaymentIntent = async (req, res) => {
       return res.status(500).json({ error: "Failed to create unique orderId" });
     }
 
-    console.log("New Order created:", NewOrder);
+    //console.log("New Order created:", NewOrder);
 
     res.status(200).json({
       clientSecret: paymentIntent.client_secret,
       orderId: NewOrder.orderId,
     });
-    console.log("response sent with clientSecret and orderId", res.json);
+    //console.log("response sent with clientSecret and orderId", res.json);
   } catch (error) {
     console.error("Error creating payment intent:", error);
     res.status(500).json({ error: "Failed to create payment intent" });

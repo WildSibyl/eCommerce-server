@@ -10,8 +10,8 @@ export const me = async (req, res) => {
 
 export const signUp = async (req, res) => {
   try {
-    console.log("SignUp endpoint hit");
-    console.log("Signup payload:", req.body);
+    //console.log("SignUp endpoint hit");
+    //console.log("Signup payload:", req.body);
 
     const {
       userName,
@@ -167,7 +167,7 @@ export const updatePassword = async (req, res) => {
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
-  console.log("User found:", user);
+  //console.log("User found:", user);
   if (!currentPassword || !user.password) {
     return res
       .status(400)

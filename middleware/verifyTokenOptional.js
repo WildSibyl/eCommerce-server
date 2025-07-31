@@ -4,7 +4,7 @@ import ErrorResponse from "../utils/ErrorResponse.js";
 const verifyTokenOptional = (req, res, next) => {
   const { token } = req.cookies;
 
-  console.log("Logged in user token: ", token);
+  //console.log("Logged in user token: ", token);
 
   if (!token) {
     req.userId = null;
@@ -22,7 +22,7 @@ const verifyTokenOptional = (req, res, next) => {
     return next(new ErrorResponse("Unauthorized", 401));
   }
 
-  console.log("User ID from token:", req.userId);
+  //console.log("User ID from token:", req.userId);
 };
 
 export default verifyTokenOptional;
