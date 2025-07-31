@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
   //console.log(req.headers.cookie); //without this line, the cookie will not be parsed
   const { token } = req.cookies; // cookie-parser will parse the cookies and add them to the req.cookies object
 
-  console.log(token);
+  //console.log(token);
 
   if (!token) throw new ErrorResponse("Unauthorized", 401);
 

@@ -7,7 +7,7 @@ export const applyDiscount = async (req, res, next) => {
     const { code } = req.body;
     const userId = req.userId;
 
-    console.log("Applying discount code:", code, "for user ID:", userId);
+    //console.log("Applying discount code:", code, "for user ID:", userId);
 
     const discount = await DiscountCode.findOne({ where: { code } });
 

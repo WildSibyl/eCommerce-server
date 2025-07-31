@@ -18,7 +18,7 @@ const port = process.env.PORT || 8080;
 const allowedOrigin = process.env.CLIENT_URL;
 
 const errorHandler = (err, req, res, next) => {
-  process.env.NODE_ENV !== "production" && console.log(err);
+  process.env.NODE_ENV !== "production" && //console.log(err);
   res.status(err.statusCode || 500).json({ error: err.message });
 };
 
@@ -47,10 +47,10 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // sequelize.sync({ force: true }).then(() => {
-//   console.log("Database synced with models (forced).");
+// //console.log("Database synced with models (forced).");
 // });
 
-app.listen(port, () => console.log(`e-commerce server running at ${port}`));
+app.listen(port, () => //console.log(`e-commerce server running at ${port}`));
 
 //npm install
 //npm i bcrypt
